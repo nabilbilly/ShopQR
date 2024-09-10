@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+    <style>
+	.error-bg {
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23f0b608' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%23e6d710' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23e7af05' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23e7d808' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23d8a408' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%23f1e213' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23f0b607' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23e4d506' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23eab822' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%23e8da14' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%23e8b008' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%23edde14' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
+	}
+	.tracking-tighter-less {
+		letter-spacing: -0.75rem;
+	}
+	.text-shadow {
+		text-shadow: -8px 0 0 rgb(102 123 242);
+	}
+</style> 
+</head>
+<body>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abel|Archivo+Black|Barlow">
+	<div id="content" class="bg-center bg-cover bg-no-repeat h-screen items-center justify-center flex flex-col" style="background-image: url(&quot;https://res.cloudinary.com/moodgiver/image/upload/v1623360651/jean-philippe-delberghe-1400011-unsplash_a8qscz.jpg&quot;);">
+        <div   class="flex justify-center items-center mt-2 mb-4">
+            <a href="/">
+                <h2 class="font-bold  text-2xl text-white">Abic <span class="bg-[#f84525] text-white px-2 py-1.5 rounded-md">Express</span></h2>
+            </a> 
+        </div>
+		<div id="moka-w1wgf" class="items-center justify-center w-full p-8 flex flex-col">
+			<div id="moka-ix3cs" class="bg-gray-400 items-center justify-center md:w-1/2 w-full shadow-md p-5 h-auto rounded-lg blur-3 bg-opacity-50 flex flex-col col-span-12">
+				<h4 class="w-48 border-t-4 border-solid border-red-500 h-20" id="moka-uuij0">
+				</h4>
+				<h4 class="text-orange-300    text-2xl" id="moka-8q3tt" style="font-family: Abel;">Start shopping. Enjoy 20% discount</h4>
+				<h2 class="text-gray-300   text-5xl text-center mt-2 mb-20" id="moka-cqg7a" style="font-family: &quot;Archivo Black&quot;;">Let Take a Walk!</h2>
+				<a href="{% url 'login' %}"><button  value="button" class="hover:text-gray-300 bg-[#f84525] text-white hover:bg-black w-56 p-4 text-2xl font-bold" id="moka-8pwrq" style="font-family: Barlow;">Shop Now </button></a>
+			</div>
+		</div>
+	</div>
+    <!-- component -->
+{% comment %} <div class="flex items-center justify-center min-h-screen bg-indigo-500  bg-fixed bg-cover bg-bottom error-bg"
+style="background-image: url(data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23f0b608' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%23e6d710' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23e7af05' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23e7d808' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23d8a408' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%23f1e213' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23f0b607' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23e4d506' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23eab822' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%23e8da14' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%23e8b008' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%23edde14' points='943 900 1210 900 971 687'/%3E%3C/svg%3E);">
+
+<div class="container lg:px-64">
+    <div class="row">
+        <div class="col-sm-8 offset-sm-2 text-gray-50 text-center -mt-52">
+            <div class="relative ">
+                <div   class="flex justify-center items-center mt-24 mb-12">
+                    <a href="/">
+                        <h2 class="font-bold  text-2xl">Abic <span class="bg-[#f84525] text-white px-2 py-1.5 rounded-md">Express</span></h2>
+                    </a> 
+                </div>
+            
+            
+            <p class="text-gray-100 font-bold mt-2 mb-12">Enjoy shopping both in-store and online. <br> Use our app while you’re at our physical mall for a seamless and enhanced shopping experience right from your phone, or shop from the comfort of your home.</p>
+            <a href="{% url 'login' %}"
+                class="bg-[#f84525]  px-5 py-3 text-sm shadow-sm font-medium tracking-wider text-gray-50 rounded-full hover:shadow-lg">
+                Start shopping
+            </a>
+        </div>
+    </div> 
+</div>
+</div>{% endcomment %}
+    
+</body>
+</html>

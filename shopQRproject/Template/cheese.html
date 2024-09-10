@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+ {% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce UI</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+ 
+</head>
+<body class="bg-fixed bg-cover pt-12 bg-no-repeat bg-center h-screen" style="background-image: url('{% static 'src/images/set.png' %}');">
+  <div class="flex justify-center items-center h-full">
+    <div class="flex  md:flex-row w-full max-w-3xl">
+      <div class=" flex items-center p-12 justify-center w-full md:w-1/2 bg-white rounded-l-lg shadow-lg">
+        <img src="{% static 'src/images/Cheese.png' %}" alt="Product" class="rounded-lg shadow-lg object-cover h-full w-full" >
+      </div>
+      <div class="w-full md:w-1/2 pl-8 bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-r-xl p-8">
+        <div class=" flex justify-between">
+           <a href="{% url 'QRscanner' %}"> <svg class="h-5 w-7 text-red-500 hover:bg-white"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M4 7v-1a2 2 0 0 1 2 -2h2" />  <path d="M4 17v1a2 2 0 0 0 2 2h2" />  <path d="M16 4h2a2 2 0 0 1 2 2v1" />  <path d="M16 20h2a2 2 0 0 0 2 -2v-1" />  <line x1="5" y1="12" x2="19" y2="12" /></svg> </a>
+            <svg class="h-5 w-7 text-red-500  hover:bg-white"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+        </div><br>
+        <h2 class="text-2xl font-bold">Lövbacken</h2>
+        <p class="text-gray-600 mt-2">Coffee table, concrete, 90 cm</p>
+
+        <div class="flex items-center mt-2">
+          <div class="text-red-600">★★★★☆</div>
+          <div class="text-gray-500 ml-2">(12 reviews)</div>
+        </div>
+        <p class="text-gray-600 mt-4">An organic shape and smooth finish of this concrete coffee table reflect nature's elegance. Made from lightweight, reinforced glass fiber concrete, it seamlessly blends durability with style.</p>
+        <div class="mt-4">
+         <div class=" flex justify-between">
+            
+            <div class="number-control ">
+                <div class="number-left"></div>
+                <input type="number" name="number" class="number-quantity">
+                <div class="number-right"></div>
+            </div>
+            <div class="text-lg font-bold mr-5">$149</div> 
+         </div>  
+         <br>
+         <div class=" flex justify-between">
+            <button class="mt-4 px-6 py-2 bg-[#f84525] text-white rounded-lg shadow  hover:bg-blue-700" style="background:#f84525;">
+                Add to&nbsp;cart
+            </button>
+
+            <a href="{% url 'InstoreCart' %}"><button class="mt-4 px-6 py-2 bg-white text-white rounded-lg shadow  hover:bg-blue-700" style="background:white;color:#f84525">
+                View
+            </button></a>
+
+           <a href="{% url 'QRscanner' %}"> <button class="mt-4 px-6 py-2 bg-[#f84525] text-white rounded-lg shadow  hover:bg-blue-700" style="background:Black;">
+                Scan
+            </button></a>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

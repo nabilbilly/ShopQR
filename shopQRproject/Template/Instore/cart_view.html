@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Cart</title>
+    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Loader styles */
+        .modal-loader {
+            position: fixed; /* Fixed positioning for full-screen */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            backdrop-filter: blur(5px); /* Apply blur effect to the background */
+            background: rgba(0, 0, 0, 0.3); /* Semi-transparent black background */
+            z-index: 1050; /* Ensure it's above other content */
+            /* Remove hidden class here to see changes */
+        }
+
+        /* Loader animation */
+        #loader {
+            border: 16px solid #f3f3f3; /* Light grey background */
+            border-radius: 50%;
+            border-top: 16px solid #3498db; /* Blue color */
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+        }
+
+        /* Spin animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Hidden class */
+        .hidden {
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+        }
+
+    </style>
+</head>
+<body>
+    <section class="h-100 gradient-custom">
+        <div class="container py-5">
+          <div class="row d-flex justify-content-center my-4">
+            <div class="col-md-8">
+              <div class="card mb-4">
+                <div class="card-header py-3">
+                  <h5 class="mb-0">Cart - {{ cart_items.count }} items</h5>
+                </div>
+                
+                <div class="card-body">
+                    {% if cart_items %}
+                    <form method="post" action="{% url 'update_cart' %}">
+                      {% csrf_token %}
+                      <!-- Loop through cart items -->
+                      {% for item in cart_items %}
+                      <div class="row mb-4">
+                        <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                          <!-- Product Image -->
+                          <div class="bg-image hover-overlay hover-zoom ripple rounded">
+                            <img src="{{ item.product.product_images.first.image.url }}" class="w-100" alt="{{ item.product.product_name }}" />
+                          </div>
+                        </div>
+
+                        <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                          <!-- Product Details -->
+                          <p><strong>{{ item.product.product_name }}</strong></p>
+                          {% comment %} <p>Color: {{ item.product.color_name }}</p> {% endcomment %}
+                          <p>Color: 
+                            {% for color in item.product.color_variant.all %}
+                        <strong>{{ color.color_name }}</strong>{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                        </strong>  All color.</strong>
+                            {% endfor %}
+                        </p>
+                          <p>Actual Price: <strong>${{ item.product.price }}</strong></p>
+
+                          <!-- Remove Item Button -->
+                          <a href="{% url 'remove_from_cart' item.product.slug %}" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i>Remove</a>
+                            
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                          <!-- Quantity Control -->
+                          <div class="d-flex mb-4" style="max-width: 30px">
+                            <button class="btn btn-primary px-3 me-2" type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                             -
+                            </button>
+
+                            {% comment %} <input id="form1" min="1" name="quantity_{{ item.id }}" value="{{ item.quantity }}" type="number" class="form-control" /> {% endcomment %}
+                            <input type="number" name="quantity_{{ item.product.slug }}" value="{{ item.quantity }}" min="1" style="width: 60px;text-align: center;">
+
+
+                            <button class="btn btn-primary px-3 ms-2" type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                              +
+                            </button>
+                          </div>
+
+                          <!-- Price Display -->
+                          <p class="text-start text-md-center">
+                            <strong>${{ item.item_price }}</strong>
+                          </p>
+                        </div>
+                      </div>
+
+                      <hr class="my-4" />
+                      {% endfor %}
+
+                      <!-- Update Button -->
+                      <div class="flex justify-end">
+                        <button type="submit" class="btn btn-primary">Update Cart</button>
+                      </div>
+                    </form>
+                    {% else %}
+                    <p>Your cart is empty.</p>
+                    {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary Section -->
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header py-3">
+                  <h5 class="mb-0">Summary</h5>
+                </div>
+                <div class="card-body">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                      Products
+                      <span>${{ total_price }}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                      Tax
+                      <span>Free</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                      <strong>Total Amount</strong>
+                      <span><strong>${{ total_price }}</strong></span>
+                    </li>
+                  </ul>
+
+                  <button class="btn btn-primary btn-lg btn-block" type="button" id="proceedToCheckoutBtn" >Proceed to Checkout</button>
+                  <a href="{% url 'QRscanner' %}" class="btn btn-lg btn-block text-black text-center" style="text-decoration:none; color: black; font-size:17px;">
+                    or Continue shopping
+                </a>
+                
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+
+<!-- Modal Structure -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            
+            <div class="modal-body">
+                <!-- Payment Form -->
+                <div class="w-full mx-auto rounded-lg bg-white  px-5 pt-2 pb-5 text-gray-700" style="max-width: 600px">
+                    <div class="w-full pt-1 pb-5">
+                        <div class="bg-indigo-500 text-white overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg flex justify-center items-center">
+                            <i class="mdi mdi-credit-card-outline text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="mb-10">
+                        <h1 class="text-center font-bold text-xl uppercase">Secure payment info</h1>
+                    </div>
+                    <div class="mb-3 flex -mx-2">
+                        <div class="px-2">
+                            <label for="type1" class="flex items-center cursor-pointer">
+                                <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type1" checked>
+                                
+                                <img src="https://leadershipmemphis.org/wp-content/uploads/2020/08/780370.png" class="h-8 ml-3">
+                            </label>
+                        </div>
+                        <div class="px-2">
+                            <label for="type1" class="flex items-center cursor-pointer">
+                                <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type1" checked>
+                                <img src="{% static 'src/images/icons/mtn.jpeg' %}" class="h-8 ml-3">
+                            </label>
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="font-bold text-sm mb-2 ml-1">Momo number</label>
+                        <div>
+                            <input class="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="+233 0000 000 00" type="text"/>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="font-bold text-sm mb-2 ml-1">Enter reference</label>
+                        <div>
+                            <input class="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text"/>
+                        </div>
+                    </div>
+                    <div class="mb-10">
+                        <label class="font-bold text-sm mb-2 ml-1">Amount to Pay</label>
+                        <div>
+                            <button class="w-32 px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="000" type="text">${{ total_price }} </button>
+                        </div>
+
+                    </div>
+                 
+                    </div>
+                   
+                    <div>
+                        <button id="payNowBtn" class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"><i class="mdi mdi-lock-outline mr-1"></i> PAY NOW</button>
+                    </div> 
+                    
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- Second modal for payment alert -->
+ <div class="modal fade" id="paymentAlertModal" tabindex="-1" role="dialog" aria-labelledby="paymentAlertModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentAlertModalLabel">Payment Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Alert: Please check your phone. There will be a prompt to confirm and complete payment.</p>
+            </div>
+            {% comment %} <div class="modal-footer">
+                <button  type="button" class="btn btn-primary" >Done!</button>
+            </div> {% endcomment %}
+            <div class="modal-footer">
+                <button id="doneBtn" type="button" class="btn btn-primary">Done!</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+  <!-- Loader Modal -->
+   
+        <div class="modal-loader  hidden" id="loaderModal" style="padding-left:38%; padding-top:20%;" >
+            <div class="flex-col items-center justify-start">
+                <div class='' id="loader">
+                </div>
+                <h5> &nbsp;&nbsp;&nbsp;&nbsp; Checking...</h5>
+            </div> 
+        </div> 
+   
+ 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+     document.getElementById('doneBtn').addEventListener('click', function() {
+        fetch("{% url 'generate_receipt' %}", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: JSON.stringify({
+                // If needed, you can include any relevant data in the body
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = "{% url 'receipt' %}?receipt_uid=" + data.receipt_uid;
+            } else {
+                alert('Error generating receipt: ' + data.message);  // Include error message from response
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while generating the receipt');
+        });
+    });
+    
+    $(document).ready(function(){
+        $('#proceedToCheckoutBtn').click(function(){
+            $('#checkoutModal').modal('show');
+        });
+
+        // When Pay Now button is clicked
+        $('#payNowBtn').click(function() {
+            // Close the checkout modal
+            $('#checkoutModal').modal('hide');
+
+            // Show the loader modal
+            $('#loaderModal').show();
+
+            // Simulate a 3-second delay (e.g., payment processing)
+            setTimeout(function() {
+                $('#loaderModal').hide(); // Hide the loader modal
+
+                // Show the payment alert modal after 3 seconds
+                $('#paymentAlertModal').modal('show');
+            }, 3000); // 3 seconds delay
+        });
+    });
+</script>
+</body>
+</html>

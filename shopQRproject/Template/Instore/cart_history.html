@@ -1,0 +1,116 @@
+{% comment %} <h2>Cart Items History</h2>
+<ul>
+  {% for item in history_items %}
+    <li>{{ item.product_name }} ({{ item.quantity }}) - ${{ item.price }} on {{ item.purchase_date }}</li>
+    <hr>
+  {% endfor %}
+</ul> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Container for the history items */
+      .history-container {
+          max-width: 800px;
+          margin: 20px auto;
+          padding: 20px;
+          background-color: #f9f9f9;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+  
+      /* Header for each group (purchase date and time) */
+      .purchase-group-header {
+          font-size: 1.25rem;
+          color: #333;
+          margin-bottom: 10px;
+          font-weight: 600;
+      }
+  
+      /* Divider for separating groups */
+      .divider {
+          border-top: 2px solid #e0e0e0;
+          margin: 20px 0;
+      }
+  
+      /* List of items within a group */
+      .item-list {
+          list-style-type: none;
+          padding: 0;
+          margin: 0;
+      }
+  
+      /* Each item within the purchase group */
+      .item-list li {
+          padding: 10px;
+          border-bottom: 1px solid #ddd;
+          font-size: 1rem;
+      }
+  
+      /* Last item in the list without a bottom border */
+      .item-list li:last-child {
+          border-bottom: none;
+      }
+  
+      /* Price styling */
+      .price {
+          color: #27ae60;
+          font-weight: 500;
+      }
+  
+      /* Quantity styling */
+      .quantity {
+          font-weight: 500;
+          color: #555;
+      }
+  
+      /* No cart history text */
+      .no-history {
+          text-align: center;
+          color: #888;
+          font-size: 1.2rem;
+      }
+  </style>
+  
+</head>
+<body>
+  <div class="history-container">
+    {% if history_items %}
+        <!-- Group by exact purchase date and time -->
+        {% with previous_datetime=None %}
+            {% for item in history_items %}
+                <!-- New Group Starts (Group by date and time) -->
+                {% if item.purchase_datetime != previous_datetime %}
+                    <h4 class="purchase-group-header">
+                        Purchased on {{ item.purchase_datetime|date:"Y-m-d H:i" }}
+                    </h4>
+                    <hr class="divider">
+                {% endif %}
+
+                <!-- Display the grouped item -->
+                <ul class="item-list">
+                    <li>
+                        {{ item.product_name }} (x<span class="quantity">{{ item.quantity }}</span>) -
+                        <span class="price">${{ item.price }}</span>
+                    </li>
+                </ul>
+
+                <!-- Update the previous_datetime variable -->
+                {% with item.purchase_datetime as previous_datetime %}
+                {% endwith %}
+            {% endfor %}
+        {% endwith %}
+    {% else %}
+        <p class="no-history">No cart history available.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>

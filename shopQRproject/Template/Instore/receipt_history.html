@@ -1,0 +1,7 @@
+<h2>Receipt History</h2>
+<ul>
+  {% for receipt in receipt_items %}
+    <li>Receipt {{ receipt.receipt_uid }} - ${{ receipt.total_price }} on {{ receipt.purchase_date }}</li>
+    <hr>
+  {% endfor %}
+</ul>

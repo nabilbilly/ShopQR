@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-commerce UI</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  {% load static %}
+</head>
+<body class="bg-fixed bg-cover pt-12 bg-no-repeat bg-center h-screen" style="background-image: url('{% static 'src/images/set.png' %}');">
+  <div class="flex justify-center items-center h-full">
+    <div class="flex flex-col md:flex-row w-full max-w-3xl">
+      <div class=" flex items-center p-12 justify-center w-full md:w-1/2 bg-white rounded-l-lg shadow-lg">
+        <img src="{% static 'src/saturn-Table.jpg' %}" alt="Product" class="rounded-lg shadow-lg object-cover h-full w-full" >
+      </div>
+      <div class="w-full md:w-1/2 pl-8 bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-r-xl p-8">
+        <h2 class="text-2xl font-bold">Lövbacken</h2>
+        <p class="text-gray-600 mt-2">Coffee table, concrete, 90 cm</p>
+        <div class="flex items-center mt-2">
+          <div class="text-red-600">★★★★☆</div>
+          <div class="text-gray-500 ml-2">(12 reviews)</div>
+        </div>
+        <p class="text-gray-600 mt-4">An organic shape and smooth finish of this concrete coffee table reflect nature's elegance. Made from lightweight, reinforced glass fiber concrete, it seamlessly blends durability with style.</p>
+        <div class="mt-4">
+          <div class="text-lg font-bold">$149</div>
+          <button class="mt-4 px-6 py-2 bg-[#f84525] text-white rounded-lg shadow  hover:bg-blue-700" style="background:#f84525;">
+            Add to cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Scanner</title>
+    <script src="https://cdn.jsdelivr.net/npm/instascan@1.0.0/instascan.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+        }
+        
+        
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  {% load static %}
+</head>
+
+<body class="bg-fixed bg-cover pt-12 bg-no-repeat bg-center h-screen" style="background-image: url('{% static 'src/set.png' %}');">
+    <div class="flex justify-center items-center p-12 h-full">
+        <div class="flex flex-col md:flex-row w-full max-w-7xl">
+            <div class=" flex items-center p-12 justify-center w-full md:w-1/2 bg-white rounded-l-lg shadow-lg">
+              <img src="{% static 'src/images/gif.gif' %}" alt="Product" class="rounded-lg  object-cover h-full w-full" >
+            </div> 
+            <div class="w-full md:w-1/2 pl-8 bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-r-xl p-8">
+                <h1 class=" text-center">Scan QR Codes</h1>
+                <br>
+                <div id="qr-reader"></div>
+
+                <a href="{% url 'view_cart' %}">
+                    <button class="mt-4 px-6 py-2 bg-white text-white rounded-lg shadow hover:bg-blue-700" style="background:white;color:blue">
+                        View&nbsp;Cart
+                    </button>
+                  </a>
+                </div> 
+            </div>
+        </div>
+    </div>
+   
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script src="script.js"></script>
+
+
+
+    {% comment %} <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            alert(`Code matched = ${decodedText}`, decodedResult);
+        }
+        
+        function onScanFailure(error) {
+            console.warn(`Code scan error = ${error}`);
+        }
+        
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script> {% endcomment %}
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            // Redirect to the URL obtained from the QR code
+            window.location.href = decodedText; // Assuming decodedText contains the URL
+        }
+        
+        function onScanFailure(error) {
+            console.warn(`Code scan error = ${error}`);
+        }
+        
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "qr-reader", { fps: 10, qrbox: 250 });
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
+</body>
+</html>

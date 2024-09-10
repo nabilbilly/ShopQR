@@ -1,0 +1,174 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    {% comment %} <link rel="stylesheet" href="{% static 'src/styles.css' %}"> 
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include any relevant CSS like Tailwind or Bootstrap -->
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-2xl font-bold">Receipt</h1>
+
+        <!-- Display basic receipt details -->
+        <p><strong>Receipt ID:</strong> {{ receipt.uid }}</p>
+        <p><strong>Username:</strong> {{ username }}</p>
+        <p><strong>Date:</strong> {{ receipt_date }}</p>
+        
+        <!-- Cart Items Table -->
+        <h2 class="text-xl mt-4">Items Purchased</h2>
+        <table class="table-auto w-full border-collapse border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border border-gray-300 px-4 py-2">Product</th>
+                    <th class="border border-gray-300 px-4 py-2">Image</th>
+                    <th class="border border-gray-300 px-4 py-2">Quantity</th>
+                    <th class="border border-gray-300 px-4 py-2">Price</th>
+                    <th class="border border-gray-300 px-4 py-2">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <td class="border border-gray-300 px-4 py-2">{{ item.product }}</td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product }}" class="w-20 h-20 object-cover">
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2">{{ item.quantity }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ item.price }}</td>
+                    <td class="border border-gray-300 px-4 py-2">{{ item.quantity|floatformat:2 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Display the total price -->
+        <h3 class="text-xl font-bold mt-4">Total Price: ${{ total_price }}</h3>
+    </div>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div class="card">
+    <div class="card-body">
+      <div class="container mb-5 mt-3">
+        <div class="row d-flex align-items-baseline">
+          <div class="col-xl-9">
+            <p style="color: #7e8d9f;font-size: 20px;">Invoice &gt;&gt; <strong>Receipt ID:</strong> {{ receipt.uid }}</strong></p>
+          </div>
+        </div>
+        <div class="container">
+          <div class="col-md-12">
+            <div class="text-center">
+              <i class="far fa-building fa-4x ms-0" style="color:#8f8061 ;"></i>
+              <p class="pt-2">Lesta Mall</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-8">
+              <ul class="list-unstyled">
+                <li class="text-muted">To: <span style="color:#8f8061 ;">{{ username }}</span></li>
+                <li class="text-muted">{{ username }}</li>
+                <li class="text-muted">Country, Ghana</li>
+                <li class="text-muted"><i class="fas fa-phone"></i> 123-456-789</li>
+              </ul>
+            </div>
+            <div class="col-xl-4">
+              <p class="text-muted">Invoice</p>
+              <ul class="list-unstyled">
+                <li class="text-muted"><i class="fas fa-circle" style="color:#8f8061 ;"></i> <span
+                    class="fw-bold">ID:</span>{{ receipt.uid }}</li>
+                <li class="text-muted"><i class="fas fa-circle" style="color:#8f8061 ;"></i> <span
+                    class="fw-bold">Payment Date:</span> {{ receipt_date }}</li>
+                <li class="text-muted"><i class="fas fa-circle" style="color:#8f8061;"></i> <span
+                    class="me-1 fw-bold">Status:</span><span class="badge bg-warning text-black fw-bold">
+                    Paid</span></li>
+              </ul>
+            </div>
+          </div>
+
+          {% for item in cart_items %}
+          <div class="row my-2 mx-1 justify-content-center">
+            <div class="col-md-2 mb-4 mb-md-0">
+              <div class="
+                          bg-image
+                          ripple
+                          rounded-5
+                          mb-4
+                          overflow-hidden
+                          d-block
+                          " data-ripple-color="light">
+                {% if item.image %}
+                <img src="{{ item.image }}" alt="{{ item.product }}" class="w-100" height="100px" />
+                {% else %}
+                <img src="" alt="Default image" class="w-100" height="100px" />
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-md-7 mb-4 mb-md-0">
+              <p class="fw-bold">{{ item.product }}</p>
+              <p class="mb-1">
+                <span class="text-muted me-2">Quantity:</span><span>{{ item.quantity }}</span>
+              </p>
+              <p>
+                <span class="text-muted me-2">Color:</span><span>Gray</span>
+              </p>
+            </div>
+            <div class="col-md-3 mb-4 mb-md-0">
+              <h5 class="mb-2">
+                <span class="align-middle">${{ item.price }}</span>
+              </h5>
+              <p class="text-danger"><small>You save 25%</small></p>
+            </div>
+          </div>
+          <hr>
+          {% endfor %}
+
+          <div class="row">
+            <div class="col-xl-8">
+              <p class="ms-3">Add additional notes and payment information 
+                <a href="{% url 'cart_items_history' %}">
+                <button class="mt-4 px-6 py-2 bg-white text-white rounded-lg shadow hover:bg-blue-700" style="background:white;color:blue">
+                    Cart History
+                </button>
+              </a>
+              <a href="{% url 'receipt_history' %}">
+                <button class="mt-4 px-6 py-2 bg-white text-white rounded-lg shadow hover:bg-blue-700" style="background:white;color:blue">
+                   Receipt History
+                </button>
+              </a>
+            </p>
+            </div>
+            <div class="col-xl-3">
+              <ul class="list-unstyled">
+                <li class="text-muted ms-3"><span class="text-black me-4">SubTotal</span>${{ total_price }}</li>
+                <li class="text-muted ms-3 mt-2"><span class="text-black me-4">Tax</span>Free</li>
+              </ul>
+              <p class="text-black float-start"><span class="text-black me-3"> Total Amount</span><span
+                  style="font-size: 25px;">${{ total_price }}</span></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
