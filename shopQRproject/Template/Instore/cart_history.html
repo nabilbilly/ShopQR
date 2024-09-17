@@ -81,7 +81,7 @@
   
 </head>
 <body>
-  <div class="history-container">
+  {% comment %} <div class="history-container">
     {% if history_items %}
         <!-- Group by exact purchase date and time -->
         {% with previous_datetime=None %}
@@ -95,12 +95,23 @@
                 {% endif %}
 
                 <!-- Display the grouped item -->
-                <ul class="item-list">
-                    <li>
+                {% comment %} <ul class="item-list">
+                    <li class="flex">
                         {{ item.product_name }} (x<span class="quantity">{{ item.quantity }}</span>) -
-                        <span class="price">${{ item.price }}</span>
+                        <span class="price">${{ item.price }} </span> 
+                        <span class="flex justify-end items-end"> {{ item.purchase_date }}</span>
                     </li>
-                </ul>
+                </ul> 
+                <ul class="item-list">
+                  <li class="flex justify-between w-full">
+                      <span>
+                          {{ item.product_name }} (x<span class="quantity">{{ item.quantity }}</span>) - 
+                          <span class="price">${{ item.price }}</span>
+                      </span>
+                      <span class="flex items-end">{{ item.purchase_date }}</span>
+                  </li>
+              </ul>
+              
 
                 <!-- Update the previous_datetime variable -->
                 {% with item.purchase_datetime as previous_datetime %}
@@ -112,5 +123,130 @@
     {% endif %}
 </div>
 
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart History</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.2.4/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .history-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f9f9f9;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .purchase-group-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #4a4a4a;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .divider {
+            margin: 1rem 0;
+            border-top: 1px solid #ddd;
+        }
+        .item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .item-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+             background-color: #fff;
+        }
+       
+        .item-list li:last-child {
+            border-bottom: none;
+        }
+        .no-history {
+            text-align: center;
+            color: #888;
+            font-size: 1.125rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <div class="history-container">
+       <!-- Navigation Tabs (Cart, Profile, Settings) -->
+       <div class="w-full mt-6">
+        <div class="relative">
+            <ul class="relative flex flex-col md:flex-row lg:flex-wrap px-1.5 py-1.5 list-none rounded-md bg-slate-100" data-tabs="tabs" role="list">
+                <li class="flex-auto text-center mb-2 md:mb-0">
+                    <a href="{% url 'QRscanner' %}" class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium transition ease-in-out border-0 rounded-md cursor-pointer text-slate-600 hover:bg-[#f84525] hover:text-white" role="tab" aria-selected="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-4 h-4 mr-1.5 text-slate-500">
+                            <path d="M11.644 1.59a.75.75 0 01.712 0l9.75 5.25a.75.75 0 010 1.32l-9.75 5.25a.75.75 0 01-.712 0l-9.75-5.25a.75.75 0 010-1.32l9.75-5.25z"></path>
+                            <path d="M3.265 10.602l7.668 4.129a2.25 2.25 0 002.134 0l7.668-4.13 1.37.739a.75.75 0 010 1.32l-9.75 5.25a.75.75 0 01-.71 0l-9.75-5.25a.75.75 0 010-1.32l1.37-.738z"></path>
+                            <path d="M10.933 19.231l-7.668-4.13-1.37.739a.75.75 0 000 1.32l9.75 5.25c.221.12.489.12.71 0l9.75-5.25a.75.75 0 000-1.32l-1.37-.738-7.668 4.13a2.25 2.25 0 01-2.134-.001z"></path>
+                        </svg>
+                        <span>Continue Shopping</span>
+                    </a>
+                </li>                           
+                
+                <li class="flex-auto text-center mb-2 md:mb-0">
+                    <a href="{% url 'receipt_history' %}" class="flex items-center justify-center w-full px-4 py-2 text-sm font-medium transition ease-in-out border-0 rounded-md cursor-pointer text-slate-600 hover:bg-[#f84525] hover:text-white" role="tab" aria-selected="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" class="w-4 h-4 mr-1.5 text-slate-500">
+                            <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clip-rule="evenodd"></path>
+                        </svg>
+                        <span>View Receipt History</span>
+                    </a>
+                </li>
+                
+               
+            </ul>
+        </div>
+    </div>
+        <h1 class="section-title">Your Cart History</h1>
+        {% if history_items %}
+            {% with previous_datetime=None %}
+                {% for item in history_items %}
+                    {% if item.purchase_datetime != previous_datetime %}
+                        <h4 class="purchase-group-header">
+                            Purchased on {{ item.purchase_datetime|date:"Y-m-d H:i" }}
+                        </h4>
+                        <hr class="divider">
+                    {% endif %}
+                    <ul class="item-list">
+                        <li>
+                            <span>
+                                {{ item.product_name }} (x<span class="quantity">{{ item.quantity }}</span>) - 
+                                <span class="price">${{ item.price }}</span>
+                            </span>
+                            <span>{{ item.purchase_date }}</span>
+                        </li>
+                    </ul>
+                    {% with item.purchase_datetime as previous_datetime %}
+                    {% endwith %}
+                {% endfor %}
+            {% endwith %}
+                           
+        {% else %}
+            <p class="no-history">No cart history available. <a href="{% url 'QRscanner' %}" class="btn btn-lg btn-block text-black text-center" style="text-decoration:none; color: black; font-size:17px;">
+               Start shopping
+          </a></p>  
+        {% endif %}
+    </div>
 </body>
 </html>

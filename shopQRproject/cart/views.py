@@ -136,6 +136,7 @@ def cart_items_history(request):
     return render(request, 'Instore/cart_history.html', {'history_items': history_items})
 
 
+
 @login_required
 def receipt_history(request):
     user = request.user

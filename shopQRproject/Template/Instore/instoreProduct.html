@@ -10,10 +10,182 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>E-commerce UI</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    {% comment %} <link rel="stylesheet" href="{% static 'src/styles.css' %}"> {% endcomment %}
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
  
 </head>
-<body class="bg-fixed bg-cover pt-12 bg-no-repeat bg-center h-screen" style="background-image: url('{% static 'src/images/set.png' %}');">
+<body class="justify-center items-center">
+      <div class="bg-gray-100 dark:bg-gray-800 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row -mx-4">
+                <div class="md:flex-1 px-4">
+                    <div class="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
+                        <img src="{{ product.product_images.first.image.url }}" alt="{{product.product_name }}" class="min-w-full  lg:w-full lg:h-full object-cover"  >
+                    </div>
+                   
+                </div>
+                <div class="md:flex-1 px-4">
+                  <div class="">
+                    <div class=" flex justify-between">
+                       <a href="{% url 'QRscanner' %}"> <svg class="h-5 w-7 text-red-500 hover:bg-white"  width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">  <path stroke="none" d="M0 0h24v24H0z"/>  <path d="M4 7v-1a2 2 0 0 1 2 -2h2" />  <path d="M4 17v1a2 2 0 0 0 2 2h2" />  <path d="M16 4h2a2 2 0 0 1 2 2v1" />  <path d="M16 20h2a2 2 0 0 0 2 -2v-1" />  <line x1="5" y1="12" x2="19" y2="12" /></svg> </a>
+                        <svg class="h-5 w-7 text-red-500  hover:bg-white"  fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div><br>
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">{{ product.product_name }}</h2>
+                    <div class="flex items-center mt-2">
+                      <div class="text-red-600">★★★★☆</div>
+                      <div class="text-gray-500 ml-2">(12 reviews)</div>
+                    </div> <br>
+                    <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed
+                        ante justo. Integer euismod libero id mauris malesuada tincidunt.
+                        An organic shape and smooth finish of this concrete coffee table reflect nature's elegance. Made from lightweight, reinforced glass fiber concrete, it seamlessly
+                    </p>
+                    <br>
+                   
+                   
+                    <div class=" mb-4 mb-lg-0 flex justify-between">
+                      {% comment %} <!-- Quantity Control -->
+                      <div class="flex mb-4" style="max-width: 30px">
+                        <button class="btn text-white px-3 me-2 bg-[#f84525]" type="button" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                         -
+                        </button>
+
+                        {% comment %} <input id="form1" min="1" name="quantity_{{ item.id }}" value="{{ item.quantity }}" type="number" class="form-control" /> 
+                        <input type="number" name="quantity_{{ item.product.slug }}" value="{{ item.quantity }}" min="1"  style="width: 60px;text-align: center;">
+
+
+                        <button class="btn text-white  px-3 ms-2 bg-[#f84525]" type="button" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                          +
+                      </button> {% endcomment %}
+                      
+                      </div>
+                      <div class="flex mb-4 items-end justify-end">
+                        <div class="mr-4">
+                            <span class="font-bold text-gray-700 dark:text-gray-300">Price:</span>
+                            <span class="text-gray-600 text-xl font-bold dark:text-gray-300">${{ product.price }}</span>
+                        </div>
+                       
+                    </div>
+                    </div>
+                   
+                  <br>
+                    
+                    <div class="flex flex-col justify-center items-center lg:flex-row -mx-2 mb-4">
+                        
+                          <div class="w-1/2 px-2">
+                            <form action="{% url 'add_to_cart' product.slug %}" method="post">
+                          {% csrf_token %}
+                              <button type="submit" class="w-full mt-3 bg-[#f84525] dark:bg-gray-600 text-white py-2 px-2 rounded-full font-bold hover:bg-gray-800 dark:hover:bg-gray-700">Add&nbsp;to&nbsp;Cart</button>
+                          </div>
+                        </form>
+                          <div class="w-1/2 px-2">
+                            <a href="{% url 'view_cart' %}">
+                              <button class="w-full lg:mb-0 mt-3 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white py-2 px-2 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">View&nbsp;Cart</button>
+                            </a>
+                          </div>
+                          <div class="w-1/2 px-2">
+                           <a href="{% url 'QRscanner' %}">
+                            <button class="w-full bg-black mt-3 dark:bg-gray-700 text-white dark:text-black py-2 px-4 rounded-full font-bold hover:bg-gray-300 dark:hover:bg-gray-600">Scan</button>
+                          </a>
+                         </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <form action="{% url 'add_to_cart' product.slug %}" method="post">
+  {% csrf_token %}
+  <div class="flex justify-between">
+      <div class="number-control">
+          <input type="number" name="quantity" value="1" min="1" class="number-quantity">
+      </div>
+      <div class="text-lg font-bold mr-5">${{ product.price }}</div> 
+  </div>  
+  <br>
+  <div class="flex justify-between">
+      <button type="submit" class="mt-4 px-6 py-2 bg-[#f84525] text-white rounded-lg shadow hover:bg-blue-700" style="background:#f84525;">
+          Add to cart
+      </button>
+  </div>
+</form>
+
+<a href="{% url 'view_cart' %}">
+  <button class="mt-4 px-6 py-2 bg-white text-white rounded-lg shadow hover:bg-blue-700" style="background:white;color:#f84525">
+      View Cart
+  </button>
+</a> {% endcomment %}
+
+
+
+ {% comment %}<div class=" flex justify-between">
+            
+             <div class="number-control ">
+                <div class="number-left"></div>
+                <input type="number" name="quantity" value="1" min="1" class="number-quantity">
+              <!--  <input type="number" name="number" class="number-quantity">  --> 
+                <div class="number-right"></div>
+            </div>
+            <div class="text-lg font-bold mr-5">${{ product.price }}</div> 
+         </div>  
+         <br>
+         <div class=" flex justify-between">
+            <button type="submit" class="mt-4 px-6 py-2 bg-[#f84525] text-white rounded-lg shadow  hover:bg-blue-700" style="background:#f84525;">
+                Add to&nbsp;cart
+            </button>
+
+            <a href=""><button class="mt-4 px-6 py-2 bg-white text-white rounded-lg shadow  hover:bg-blue-700" style="background:white;color:#f84525">
+                View
+            </button></a> {% endcomment %}
+
+
+
+
+
+            {% comment %} <body class="bg-fixed bg-cover pt-12 bg-no-repeat bg-center h-screen" style="background-image: url('{% static 'src/images/set.png' %}');">
   <div class="flex justify-center items-center h-full">
     <div class="flex  md:flex-row w-full max-w-3xl">
       <div class=" flex items-center p-12 justify-center w-full md:w-1/2 bg-white rounded-l-lg shadow-lg">
@@ -72,51 +244,5 @@
        
       </div>
     </div>
-  </div>
-</body>
-</html>
-
-
-{% comment %} <form action="{% url 'add_to_cart' product.slug %}" method="post">
-  {% csrf_token %}
-  <div class="flex justify-between">
-      <div class="number-control">
-          <input type="number" name="quantity" value="1" min="1" class="number-quantity">
-      </div>
-      <div class="text-lg font-bold mr-5">${{ product.price }}</div> 
-  </div>  
-  <br>
-  <div class="flex justify-between">
-      <button type="submit" class="mt-4 px-6 py-2 bg-[#f84525] text-white rounded-lg shadow hover:bg-blue-700" style="background:#f84525;">
-          Add to cart
-      </button>
-  </div>
-</form>
-
-<a href="{% url 'view_cart' %}">
-  <button class="mt-4 px-6 py-2 bg-white text-white rounded-lg shadow hover:bg-blue-700" style="background:white;color:#f84525">
-      View Cart
-  </button>
-</a> {% endcomment %}
-
-
-
- {% comment %}<div class=" flex justify-between">
-            
-             <div class="number-control ">
-                <div class="number-left"></div>
-                <input type="number" name="quantity" value="1" min="1" class="number-quantity">
-              <!--  <input type="number" name="number" class="number-quantity">  --> 
-                <div class="number-right"></div>
-            </div>
-            <div class="text-lg font-bold mr-5">${{ product.price }}</div> 
-         </div>  
-         <br>
-         <div class=" flex justify-between">
-            <button type="submit" class="mt-4 px-6 py-2 bg-[#f84525] text-white rounded-lg shadow  hover:bg-blue-700" style="background:#f84525;">
-                Add to&nbsp;cart
-            </button>
-
-            <a href=""><button class="mt-4 px-6 py-2 bg-white text-white rounded-lg shadow  hover:bg-blue-700" style="background:white;color:#f84525">
-                View
-            </button></a> {% endcomment %}
+  </div> {% endcomment %}
+ 

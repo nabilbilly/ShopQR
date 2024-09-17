@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Cart</title>
-    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'src/styles.css' %}"> {% endcomment %}
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'src/styles.css' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'src/styles.css' %}"> {% endcomment %}
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" rel="stylesheet">
@@ -126,7 +126,7 @@
 
                       <!-- Update Button -->
                       <div class="flex justify-end">
-                        <button type="submit" class="btn btn-primary">Update Cart</button>
+                        <button type="submit" class="btn bg-[#f84525] text-white ">Update Cart</button>
                       </div>
                     </form>
                     {% else %}
@@ -158,7 +158,7 @@
                     </li>
                   </ul>
 
-                  <button class="btn btn-primary btn-lg btn-block" type="button" id="proceedToCheckoutBtn" >Proceed to Checkout</button>
+                  <button class="btn bg-[#f84525] text-white btn-lg btn-block" type="button" id="proceedToCheckoutBtn" >Proceed to Checkout</button>
                   <a href="{% url 'QRscanner' %}" class="btn btn-lg btn-block text-black text-center" style="text-decoration:none; color: black; font-size:17px;">
                     or Continue shopping
                 </a>
@@ -179,7 +179,7 @@
                 <!-- Payment Form -->
                 <div class="w-full mx-auto rounded-lg bg-white  px-5 pt-2 pb-5 text-gray-700" style="max-width: 600px">
                     <div class="w-full pt-1 pb-5">
-                        <div class="bg-indigo-500 text-white overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg flex justify-center items-center">
+                        <div class="bg-[#f84525] text-white overflow-hidden rounded-full w-20 h-20 -mt-16 mx-auto shadow-lg flex justify-center items-center">
                             <i class="mdi mdi-credit-card-outline text-3xl"></i>
                         </div>
                     </div>
@@ -190,16 +190,17 @@
                         <div class="px-2">
                             <label for="type1" class="flex items-center cursor-pointer">
                                 <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type1" checked>
-                                
-                                <img src="https://leadershipmemphis.org/wp-content/uploads/2020/08/780370.png" class="h-8 ml-3">
+                                <img src="{% static 'src/images/icons/mtn.jpeg' %}" class="h-8 ml-3">
                             </label>
                         </div>
                         <div class="px-2">
                             <label for="type1" class="flex items-center cursor-pointer">
-                                <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type1" checked>
-                                <img src="{% static 'src/images/icons/mtn.jpeg' %}" class="h-8 ml-3">
+                                <input type="radio" class="form-radio h-5 w-5 text-indigo-500" name="type" id="type1" >
+                                
+                                <img src="https://leadershipmemphis.org/wp-content/uploads/2020/08/780370.png" class="h-8 ml-3">
                             </label>
                         </div>
+                        
                         
                         
                     </div>
@@ -207,19 +208,19 @@
                     <div class="mb-3">
                         <label class="font-bold text-sm mb-2 ml-1">Momo number</label>
                         <div>
-                            <input class="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="+233 0000 000 00" type="text"/>
+                            <input class="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="+233 0000 000 00" type="number" required />
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="font-bold text-sm mb-2 ml-1">Enter reference</label>
                         <div>
-                            <input class="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="John Smith" type="text"/>
+                            <input class="w-full px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="First shopping" type="text" required />
                         </div>
                     </div>
                     <div class="mb-10">
                         <label class="font-bold text-sm mb-2 ml-1">Amount to Pay</label>
                         <div>
-                            <button class="w-32 px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="000" type="text">${{ total_price }} </button>
+                            <button  class="w-32 px-3 py-2 mb-1 border-2 border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="000" type="text">${{ total_price }} </button>
                         </div>
 
                     </div>
@@ -227,7 +228,7 @@
                     </div>
                    
                     <div>
-                        <button id="payNowBtn" class="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"><i class="mdi mdi-lock-outline mr-1"></i> PAY NOW</button>
+                        <button id="payNowBtn" class="block w-full max-w-xs mx-auto bg-[#f84525] hover:bg-red-400 focus:bg-red-300 text-white rounded-lg px-3 py-3 font-semibold"><i class="mdi mdi-lock-outline mr-1"></i> PAY NOW</button>
                     </div> 
                     
                     </div>
@@ -284,6 +285,68 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
+    document.getElementById('doneBtn').addEventListener('click', function() {
+        // Show the loader modal
+        $('#loaderModal').show();
+
+        // Delay for 2 seconds
+        setTimeout(function() {
+            // After 2 seconds, send the request to generate receipt
+            fetch("{% url 'generate_receipt' %}", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify({
+                    // Any relevant data can be included here
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirect to the receipt page after receipt is generated
+                    window.location.href = "{% url 'receipt' %}?receipt_uid=" + data.receipt_uid;
+                } else {
+                    alert('Error generating receipt: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while generating the receipt');
+            })
+            .finally(function() {
+                // Hide the loader modal after the process is complete
+                $('#loaderModal').hide();
+            });
+        }, 2000); // 2 seconds delay before proceeding
+    });
+
+    $(document).ready(function(){
+        $('#proceedToCheckoutBtn').click(function(){
+            $('#checkoutModal').modal('show');
+        });
+
+        // When Pay Now button is clicked
+        $('#payNowBtn').click(function() {
+            // Close the checkout modal
+            $('#checkoutModal').modal('hide');
+
+            // Show the loader modal
+            $('#loaderModal').show();
+
+            // Simulate a 3-second delay (e.g., payment processing)
+            setTimeout(function() {
+                $('#loaderModal').hide(); // Hide the loader modal
+
+                // Show the payment alert modal after 3 seconds
+                $('#paymentAlertModal').modal('show');
+            }, 3000); // 3 seconds delay
+        });
+    });
+</script>
+
+{% comment %} <script>
      document.getElementById('doneBtn').addEventListener('click', function() {
         fetch("{% url 'generate_receipt' %}", {
             method: "POST",
@@ -331,6 +394,6 @@
             }, 3000); // 3 seconds delay
         });
     });
-</script>
+</script> {% endcomment %}
 </body>
 </html>
